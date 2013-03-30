@@ -7,9 +7,6 @@ This Grunt plugin and has not been tested thorougly yet so use it at your own ri
 
 For now the plugin supports only basic Flyway configuration options and it can only execute the ```clean```, ```init``` and ```migrate``` commands.
 
-It only works in Windows for the moment because it calls the ```flyway.cmd``` MS-DOS script naively.  
-We promise to add OS detection features soon ;-).
-
 Also, as this plugin is not stable for now we did not add it to the [Grunt plugins npm repository](http://gruntjs.com/plugins).
 
 ## Getting Started
