@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 
     var ChildProcess = require('child_process'), 
         Util = require('util'), 
+        Os = require('os'),
         Path = require('path');
 
     // Please see the Grunt documentation for more information regarding task
@@ -26,17 +27,16 @@ module.exports = function(grunt) {
         
         var done = this.async();
         
-        var flywayBinPath = Path.resolve(__dirname, '..\\flyway-commandline-2.1.1\\bin');
+        var flywayBinPath = Path.resolve(__dirname, '../flyway-commandline-2.1.1/bin');
         
-        var javaClasspath = flywayBinPath + '\\flyway-commandline-2.1.1.jar;'
-        javaClasspath = javaClasspath + flywayBinPath + '\\flyway-core-2.1.1.jar;';
-        javaClasspath = javaClasspath + flywayBinPath + '\\spring-jdbc-2.5.6.jar;';
-        javaClasspath = javaClasspath + flywayBinPath + '\\commons-logging-1.1.1.jar;';
-        javaClasspath = javaClasspath + flywayBinPath + '\\spring-beans-2.5.6.jar;';
-        javaClasspath = javaClasspath + flywayBinPath + '\\spring-core-2.5.6.jar;';
-        javaClasspath = javaClasspath + flywayBinPath + '\\spring-context-2.5.6.jar;';
-        javaClasspath = javaClasspath + flywayBinPath + '\\aopalliance-1.0.jar;';
-        javaClasspath = javaClasspath + flywayBinPath + '\\spring-tx-2.5.6.jar';
+        var classPathSeparator = ';';
+        
+        if(Os.platform() === 'linux') {
+            classPathSeparator = ':';
+        }
+
+        var javaClasspath = flywayBinPath + '/flyway-commandline-2.1.1.jar' + classPathSeparator;
+        javaClasspath = javaClasspath + flywayBinPath + '/flyway-core-2.1.1.jar';
         
         // Checks if the provided Flyway command name is valid
         if(this.data.command !== 'clean' && 
