@@ -2,7 +2,7 @@
   "name": "grunt-flyway",
   "description": "Run Flyway database migration tool.",
   "version": "0.1.0",
-  "homepage": "https://github.com/bgaillard/grunt-flyway",
+  "homepage": "https://github.com/gomoob/grunt-flyway",
   "author": {
     "name": "Baptiste Gaillard",
     "email": "baptiste.gaillard@gomoob.com",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bgaillard/grunt-flyway.git"
+    "url": "git://github.com/gomoob/grunt-flyway.git"
   },
   "bugs": {
-    "url": "https://github.com/bgaillard/grunt-flyway/issues"
+    "url": "https://github.com/gomoob/grunt-flyway/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/bgaillard/grunt-flyway/blob/master/LICENSE-MIT"
+      "url": "https://github.com/gomoob/grunt-flyway/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
