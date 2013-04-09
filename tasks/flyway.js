@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         
         var classPathSeparator = ';';
         
-        if(Os.platform() === 'linux') {
+        if(Os.platform() === 'linux' || Os.platform() === 'darwin') {
             classPathSeparator = ':';
         }
 
