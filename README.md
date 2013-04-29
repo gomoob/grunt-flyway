@@ -168,4 +168,6 @@ Simply call the [Flyway](http://flywaydb.org) targets you've defined inside your
 ```grunt flyway:migrate```
 
 ## Release History
-_(Nothing yet)_
+
+### 0.1.1
+  * Fix a Flyway classpath build problem under UNIX. The ';' character was used instead ':'.
