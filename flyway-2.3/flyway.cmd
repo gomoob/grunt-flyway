@@ -1,5 +1,5 @@
 @REM
-@REM Copyright (C) 2010-2013 the original author or authors.
+@REM Copyright 2010-2013 Axel Fontaine and the many contributors.
 @REM
 @REM Licensed under the Apache License, Version 2.0 (the "License");
 @REM you may not use this file except in compliance with the License.
@@ -32,9 +32,13 @@ if "%JAVA_HOME%"=="" (
 )
 
 @REM Detect the width of the console
-for /F "usebackq tokens=2* delims=: " %%W in (`mode con ^| findstr Columns`) do set CONSOLE_WIDTH=%%W
+for /F "usebackq tokens=2* skip=4 delims=: " %%A in (`mode con`) do (
+  set CONSOLE_WIDTH=%%A
+  goto ExitLoop
+)
+:ExitLoop
 
-%JAVA_CMD% -cp bin\flyway-commandline-2.1.1.jar;bin\flyway-core-2.1.1.jar;bin\spring-jdbc-2.5.6.jar;bin\commons-logging-1.1.1.jar;bin\spring-beans-2.5.6.jar;bin\spring-core-2.5.6.jar;bin\spring-context-2.5.6.jar;bin\aopalliance-1.0.jar;bin\spring-tx-2.5.6.jar com.googlecode.flyway.commandline.Main %* -consoleWidth=%CONSOLE_WIDTH%
+%JAVA_CMD% -cp bin\flyway-commandline-2.3.jar;bin\flyway-core-2.3.jar com.googlecode.flyway.commandline.Main %* -consoleWidth=%CONSOLE_WIDTH%
 
 @REM Save the exit code
 set JAVA_EXIT_CODE=%ERRORLEVEL%
