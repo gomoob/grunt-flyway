@@ -30,7 +30,7 @@ The plugin uses [Flyway](http://flywaydb.org) "The Agile Database Migration Fram
 So, you have to install Java and have the `java` executable available in your PATH.
 
 ## Flyway version
-The plugin uses [Flyway](http://flywaydb.org) 2.1.1.
+The plugin uses [Flyway](http://flywaydb.org) 2.3.
 
 ## The "flyway" task
 
