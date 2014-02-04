@@ -10,7 +10,7 @@ The plugin supports all Flyway configuration options for `clean`, `init`, `migra
 ## Getting Started
 
 ### Installing the plugin
-This plugin requires Grunt `~0.4.1`
+This plugin requires Grunt `~0.4.2`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -220,6 +220,7 @@ Simply call the [Flyway](http://flywaydb.org) targets you've defined inside your
 
   * Add `develop` branch has been created, pull request have to be performed on this branch now
   * Upgrade to Flyway 2.3
+  * **WARNING** : The plugin requires requires Grunt `~0.4.2` now
 
 ### 0.2.0
 
