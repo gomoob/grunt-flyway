@@ -216,6 +216,11 @@ Simply call the [Flyway](http://flywaydb.org) targets you've defined inside your
 
 ## Release History
 
+### 0.2.1
+
+  * Add `develop` branch has been created, pull request have to be performed on this branch now
+  * Upgrade to Flyway 2.3
+
 ### 0.2.0
 
   * Added support for `validate` command
