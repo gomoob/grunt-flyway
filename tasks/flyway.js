@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         var done = this.async();
 
         // Path to the Flyway Command Line 'bin' directory
-        var flywayBinPath = Path.resolve(__dirname, '../flyway-2.3/bin');
+        var flywayBinPath = Path.resolve(__dirname, '../flyway-3.0/bin');
 
         // Windows CLASSPATH separator
         var classPathSeparator = ';';
@@ -38,8 +38,8 @@ module.exports = function(grunt) {
         }
 
         // Creates the Java CLASSPATH used to run Flyway
-        var javaClasspath = flywayBinPath + '/flyway-commandline-2.3.jar' + classPathSeparator;
-        javaClasspath = javaClasspath + flywayBinPath + '/flyway-core-2.3.jar';
+        var javaClasspath = flywayBinPath + '/flyway-commandline-3.0.jar' + classPathSeparator;
+        javaClasspath = javaClasspath + flywayBinPath + '/flyway-core-3.0.jar';
 
         // Object used to configure the Flyway Commands which are available with the Grunt Flyway Plugin
         // Currently available commands are : 

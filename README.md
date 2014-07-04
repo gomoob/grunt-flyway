@@ -216,6 +216,9 @@ Simply call the [Flyway](http://flywaydb.org) targets you've defined inside your
 
 ## Release History
 
+### 0.3
+  * Upgrade to Flyway 3.0
+
 ### 0.2.1
 
   * Add `develop` branch has been created, pull request have to be performed on this branch now
