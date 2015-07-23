@@ -105,6 +105,30 @@ module.exports = function(grunt) {
                 baselineVersion: {},
                 baselineDescription: {}
             },
+            repair: {
+                url: {
+                    required: true
+                },
+                driver: {},
+                user: {},
+                password: {},
+                schemas: {},
+                table: {},
+                locations: {},
+                jarDirs: {},
+                sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
+                sqlMigrationSuffix: {},
+                encoding: {},
+                placeholderReplacement: {},
+                placeholders: {
+                    isObject: true
+                },
+                placeholderPrefix: {},
+                placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {}
+            },
             validate: {
                 url: {
                     required: true
@@ -131,6 +155,32 @@ module.exports = function(grunt) {
                 target: {},
                 outOfOrder: {},
                 cleanOnValidationError: {}
+            },
+            info: {
+                url: {
+                    required: true
+                },
+                driver: {},
+                user: {},
+                password: {},
+                schemas: {},
+                table: {},
+                locations: {},
+                jarDirs: {},
+                sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
+                sqlMigrationSuffix: {},
+                encoding: {},
+                placeholderReplacement: {},
+                placeholders: {
+                    isObject: true
+                },
+                placeholderPrefix: {},
+                placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {},
+                target: {},
+                outOfOrder: {}
             }
         };
 
