@@ -58,9 +58,10 @@ module.exports = function(grunt) {
                 user: {},
                 password: {},
                 schemas: {},
-                jarDir: {}
+                jarDirs: {},
+                callbacks: {}
             },
-            init: {
+            baseline: {
                 url: {
                     required: true
                 },
@@ -69,9 +70,10 @@ module.exports = function(grunt) {
                 password: {},
                 schemas: {},
                 table: {},
-                jarDir: {},
-                initVersion: {},
-                initDescription: {}
+                jarDirs: {},
+                callbacks: {},
+                baselineVersion: {},
+                baselineDescription: {}
             },
             migrate: {
                 url: {
@@ -83,8 +85,9 @@ module.exports = function(grunt) {
                 schemas: {},
                 table: {},
                 locations: {},
-                jarDir: {},
+                jarDirs: {},
                 sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
                 sqlMigrationSuffix: {},
                 encoding: {},
                 placeholders: {
@@ -92,13 +95,15 @@ module.exports = function(grunt) {
                 },
                 placeholderPrefix: {},
                 placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {},
                 target: {},
                 outOfOrder: {},
                 validateOnMigrate: {},
                 cleanOnValidationError: {},
-                initOnMigrate: {},
-                initVersion: {},
-                initDescription: {}
+                baselineOnMigrate: {},
+                baselineVersion: {},
+                baselineDescription: {}
             },
             validate: {
                 url: {
@@ -110,15 +115,19 @@ module.exports = function(grunt) {
                 schemas: {},
                 table: {},
                 locations: {},
-                jarDir: {},
+                jarDirs: {},
                 sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
                 sqlMigrationSuffix: {},
                 encoding: {},
+                placeholderReplacement: {},
                 placeholders: {
                     isObject: true
                 },
                 placeholderPrefix: {},
                 placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {},
                 target: {},
                 outOfOrder: {},
                 cleanOnValidationError: {}
