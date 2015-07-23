@@ -30,20 +30,20 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     flyway: {
-        
+
         options: {
             driver : 'com.mysql.jdbc.Driver',
-            initDescription : 'Sample database created using Flyway :-)',
-            initVersion : '1.0',
+            baselineDescription : 'Sample database created using Flyway :-)',
+            baselineVersion : '1.0',
             url : 'jdbc:mysql://localhost/flyway',
             user : 'flyway',
             password : 'flyway'
         },
-        
+
         /*clean : {},*/
 
-        init : {
-            command : 'init'
+        baseline : {
+            command : 'baseline'
         }/*,
 
         migrate: {
@@ -68,7 +68,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
-  
+
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
   grunt.registerTask('test', ['clean', 'flyway', 'nodeunit']);
