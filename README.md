@@ -5,7 +5,7 @@
 ## WARNING
 This Grunt plugin and has not been tested thoroughly yet so use it at your own risk!
 
-The plugin supports all Flyway configuration options for `clean`, `init`, `migrate` and `validate` commands.
+The plugin supports all Flyway configuration options for `clean`, `baseline`, `migrate`, `repair`, `validate` and `info` commands.
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ The plugin uses [Flyway](http://flywaydb.org) "The Agile Database Migration Fram
 So, you have to install Java and have the `java` executable available in your PATH.
 
 ## Flyway version
-The plugin uses [Flyway](http://flywaydb.org) 2.3.
+The plugin uses [Flyway](http://flywaydb.org) 3.2.
 
 ## The "flyway" task
 
@@ -49,12 +49,12 @@ grunt.initConfig({
     clean: {
       command: 'clean'
     },
-    init: {
+    baseline: {
       options: {
-        initDescription: 'Sample database created using Flyway:-)',
-        initVersion: '1.0'
+        baselineDescription: 'Sample database created using Flyway:-)',
+        baselineVersion: '1.0'
       },
-      command: 'init'
+      command: 'baseline'
     },
     migrate: {
       options: {
@@ -88,20 +88,20 @@ grunt.initConfig({
       },
       command: 'clean',
     },
-    init_db1: {
+    baseline_db1: {
       options: {
-        initDescription: 'Sample database created using Flyway:-)',
-        initVersion: '1.0'
+        baselineDescription: 'Sample database created using Flyway:-)',
+        baselineVersion: '1.0'
       },
-      command: 'init'
+      command: 'baseline'
     },
-    init_db2: {
+    baseline_db2: {
       options {
         url: 'jdbc:mysql://localhost/db2',
-        initDescription: 'Sample database created using Flyway:-)',
-        initVersion: '1.0'
+        baselineDescription: 'Sample database created using Flyway:-)',
+        baselineVersion: '1.0'
       },
-      command: 'init'
+      command: 'baseline'
     },
     migrate_db1: {
       options: {
@@ -123,11 +123,13 @@ grunt.initConfig({
 })
 ```
 
-The only commands which are supported for the moment are `clean`, `init`, `migrate` and `validate`.
+The only commands which are supported for the moment are `clean`, `baseline`, `migrate`, `repair`, `validate` and `info`.
 
 ### Options
 
 Options' descriptions come from [Flyway's documentation](http://flywaydb.org/documentation/commandline/).
+
+> **NOTE:** These options may be out of sync with the official documentation. Please only use this version as a basic reference and consult the official docs for accurate information.
 
 #### clean
 
@@ -140,7 +142,7 @@ Options' descriptions come from [Flyway's documentation](http://flywaydb.org/doc
 |schemas|no|_default schema of the connection_|Comma-separated case-sensitive list of schemas managed by Flyway. <br><br> The schemas will be cleaned in the order of this list.|
 |jarDir|no|`<install-dir>`/jars|The directory containing the JDBC driver|
 
-#### init
+#### baseline
 
 |option|required|default|description|
 |------|--------|-------|-----------|
@@ -151,8 +153,8 @@ Options' descriptions come from [Flyway's documentation](http://flywaydb.org/doc
 |schemas|no|_default schema of the connection_|Comma-separated case-sensitive list of schemas managed by Flyway. <br><br> The first schema will be the one containing the metadata table.|
 |table|no|`schema_version`|The name of Flyway's metadata table. <br><br> By default (single-schema mode) the metadata table is placed in the default schema for the connection provided by the datasource. <br><br> When the `schemas` property is set (multi-schema mode), the metadata table is placed in the first schema of the list.|
 |jarDir|no|`<install-dir>`/jars|The directory containing the JDBC driver|
-|initVersion|no|1|The initial version to put in the database|
-|initDescription|no|`<< Flyway Init >>`|The description of the initial version|
+|baselineVersion|no|1|The initial version to put in the database|
+|baselineDescription|no|`<< Flyway Baseline >>`|The description of the initial version|
 
 #### migrate
 
@@ -176,9 +178,9 @@ Options' descriptions come from [Flyway's documentation](http://flywaydb.org/doc
 |outOfOrder|no|false|Allows migrations to be run "out of order". <br><br> If you already have versions 1 and 3 applied, and now a version 2 is found, it will be applied too instead of being ignored.|
 |validateOnMigrate|no|false|Whether to automatically call validate or not when running migrate. <br><br> For each sql migration a CRC32 checksum is calculated when the sql script is executed. The validate mechanism checks if the sql migration in the classpath still has the same checksum as the sql migration already executed in the database.|
 |cleanOnValidationError|no|false|Whether to automatically call clean or not when a validation error occurs. <br><br> This is exclusively intended as a convenience for development. Even tough we strongly recommend not to change migration scripts once they have been checked into SCM and run, this provides a way of dealing with this case in a smooth manner. The database will be wiped clean automatically, ensuring that the next migration will bring you back to the state checked into SCM. <br><br> **Warning! Do not enable in production!**|
-|initOnMigrate|no|false|Whether to automatically call init when migrate is executed against a non-empty schema with no metadata table. This schema will then be initialized with the `initVersion` before executing the migrations. Only migrations above `initVersion` will then be applied. <br><br> This is useful for initial Flyway production deployments on projects with an existing DB. <br><br> Be careful when enabling this as it removes the safety net that ensures Flyway does not migrate the wrong database in case of a configuration mistake!
-|initVersion|no|1|The initial version to put in the database|
-|initDescription|no|`<< Flyway Init >>`|The description of the initial version|
+|baselineOnMigrate|no|false|Whether to automatically call baseline when migrate is executed against a non-empty schema with no metadata table. This schema will then be initialized with the `baselineVersion` before executing the migrations. Only migrations above `baselineVersion` will then be applied. <br><br> This is useful for initial Flyway production deployments on projects with an existing DB. <br><br> Be careful when enabling this as it removes the safety net that ensures Flyway does not migrate the wrong database in case of a configuration mistake!
+|baselineVersion|no|1|The initial version to put in the database|
+|baselineDescription|no|`<< Flyway Baseline >>`|The description of the initial version|
 
 #### validate
 
@@ -208,15 +210,22 @@ Simply call the [Flyway](http://flywaydb.org) targets you've defined inside your
 
 `grunt flyway:clean`
 
-`grunt flyway:init`
+`grunt flyway:baseline`
 
 `grunt flyway:migrate`
 
+`grunt flyway:repair`
+
 `grunt flyway:validate`
+
+`grunt flyway:info`
 
 ## Release History
 
-### 0.3
+### 0.3.2
+  * Upgrade to Flyway 3.2
+
+### 0.3.0
   * Upgrade to Flyway 3.0
 
 ### 0.2.1

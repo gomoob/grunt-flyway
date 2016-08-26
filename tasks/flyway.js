@@ -25,30 +25,30 @@ module.exports = function(grunt) {
         var done = this.async();
 
         // Path to the Flyway Command Line 'bin' directory
-        var flywayBinPath = Path.resolve(__dirname, '../flyway-3.0/bin');
+        var flywayBinPath = Path.resolve(__dirname, '../flyway-3.2.1/lib');
 
         // Windows CLASSPATH separator
         var classPathSeparator = ';';
 
-        // Unix CLASSPATH separator 
+        // Unix CLASSPATH separator
         if(Os.platform() === 'linux' || Os.platform() === 'darwin') {
-            
+
             classPathSeparator = ':';
-        
+
         }
 
         // Creates the Java CLASSPATH used to run Flyway
-        var javaClasspath = flywayBinPath + '/flyway-commandline-3.0.jar' + classPathSeparator;
-        javaClasspath = javaClasspath + flywayBinPath + '/flyway-core-3.0.jar';
+        var javaClasspath = flywayBinPath + '/flyway-commandline-3.2.1.jar' + classPathSeparator;
+        javaClasspath = javaClasspath + flywayBinPath + '/flyway-core-3.2.1.jar';
 
         // Object used to configure the Flyway Commands which are available with the Grunt Flyway Plugin
-        // Currently available commands are : 
+        // Currently available commands are :
         // - clean      : Drops all objects in the configured schemas
         // - init       : Creates and initializes the metadata table
         // - migrate    : Migrates the database
         // - validate   : Validates the applied migrations against the ones available on the classpath
-        // 
-        // The following commands are currently not available : 'info', 'repair' 
+        //
+        // The following commands are currently not available : 'info', 'repair'
         var availableCommands = {
             clean: {
                 url: {
@@ -58,9 +58,10 @@ module.exports = function(grunt) {
                 user: {},
                 password: {},
                 schemas: {},
-                jarDir: {}
+                jarDirs: {},
+                callbacks: {}
             },
-            init: {
+            baseline: {
                 url: {
                     required: true
                 },
@@ -69,9 +70,10 @@ module.exports = function(grunt) {
                 password: {},
                 schemas: {},
                 table: {},
-                jarDir: {},
-                initVersion: {},
-                initDescription: {}
+                jarDirs: {},
+                callbacks: {},
+                baselineVersion: {},
+                baselineDescription: {}
             },
             migrate: {
                 url: {
@@ -83,8 +85,9 @@ module.exports = function(grunt) {
                 schemas: {},
                 table: {},
                 locations: {},
-                jarDir: {},
+                jarDirs: {},
                 sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
                 sqlMigrationSuffix: {},
                 encoding: {},
                 placeholders: {
@@ -92,13 +95,39 @@ module.exports = function(grunt) {
                 },
                 placeholderPrefix: {},
                 placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {},
                 target: {},
                 outOfOrder: {},
                 validateOnMigrate: {},
                 cleanOnValidationError: {},
-                initOnMigrate: {},
-                initVersion: {},
-                initDescription: {}
+                baselineOnMigrate: {},
+                baselineVersion: {},
+                baselineDescription: {}
+            },
+            repair: {
+                url: {
+                    required: true
+                },
+                driver: {},
+                user: {},
+                password: {},
+                schemas: {},
+                table: {},
+                locations: {},
+                jarDirs: {},
+                sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
+                sqlMigrationSuffix: {},
+                encoding: {},
+                placeholderReplacement: {},
+                placeholders: {
+                    isObject: true
+                },
+                placeholderPrefix: {},
+                placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {}
             },
             validate: {
                 url: {
@@ -110,18 +139,48 @@ module.exports = function(grunt) {
                 schemas: {},
                 table: {},
                 locations: {},
-                jarDir: {},
+                jarDirs: {},
                 sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
                 sqlMigrationSuffix: {},
                 encoding: {},
+                placeholderReplacement: {},
                 placeholders: {
                     isObject: true
                 },
                 placeholderPrefix: {},
                 placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {},
                 target: {},
                 outOfOrder: {},
                 cleanOnValidationError: {}
+            },
+            info: {
+                url: {
+                    required: true
+                },
+                driver: {},
+                user: {},
+                password: {},
+                schemas: {},
+                table: {},
+                locations: {},
+                jarDirs: {},
+                sqlMigrationPrefix: {},
+                sqlMigrationSeparator: {},
+                sqlMigrationSuffix: {},
+                encoding: {},
+                placeholderReplacement: {},
+                placeholders: {
+                    isObject: true
+                },
+                placeholderPrefix: {},
+                placeholderSuffix: {},
+                resolvers: {},
+                callbacks: {},
+                target: {},
+                outOfOrder: {}
             }
         };
 
@@ -129,7 +188,7 @@ module.exports = function(grunt) {
         if(!availableCommands.hasOwnProperty(this.data.command)) {
 
             grunt.log.error(
-                Util.format('Flyway does not provide any command named \'%s\' or this command is not currently supported by the Plugin !', 
+                Util.format('Flyway does not provide any command named \'%s\' or this command is not currently supported by the Plugin !',
                     this.data.command));
 
             return done(false);
@@ -137,7 +196,7 @@ module.exports = function(grunt) {
         }
 
         // Create the Console Command line used to execute the Flyway Command Line program
-        var flywayCommand = 'java -cp ' + javaClasspath + ' com.googlecode.flyway.commandline.Main ' + this.data.command;
+        var flywayCommand = 'java -cp ' + javaClasspath + ' org.flywaydb.commandline.Main ' + this.data.command;
 
         // Gets valid command line options associated to the Flyway Command which have been entered
         var commandOptions = availableCommands[this.data.command];
@@ -180,15 +239,15 @@ module.exports = function(grunt) {
                      */
 
                     var parameter = null;
-                    
+
                     for(parameter in Object.keys(options[option])) {
 
                         flywayCommand += Util.format(' -%s.%s="%s"', option, parameter, options[option][parameter]);
 
                     }
 
-                } 
-                
+                }
+
                 // The current option is a standard option
                 else {
 
@@ -196,9 +255,9 @@ module.exports = function(grunt) {
 
                 }
 
-            } 
-            
-            // An option associated to the Flyway Command entered is not available of not supported by the Flyway Grunt 
+            }
+
+            // An option associated to the Flyway Command entered is not available of not supported by the Flyway Grunt
             // Plugin
             else if (commandOptions[option].required) {
 
